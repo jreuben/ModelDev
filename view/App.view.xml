@@ -1,0 +1,9 @@
+<mvc:View
+	controllerName="modeldev.controller.App"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.f"
+	displayBlock="true"
+	height="100%">
+	<!-- Master list in the begin column, structure details in the mid column -->
+	<f:FlexibleColumnLayout id="fcl" layout="{app>/layout}" backgroundDesign="Translucent"/>
+</mvc:View>

@@ -1,0 +1,116 @@
+<mvc:View
+	controllerName="modeldev.controller.Detail"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	height="100%">
+	<Page id="detailPage" title="{name}" showNavButton="{device>/system/phone}" navButtonPress=".onClose">
+		<headerContent>
+			<Button id="editButton" icon="sap-icon://edit" tooltip="{i18n>editTooltip}" press=".onEdit"/>
+			<Button id="jsonButton" icon="sap-icon://source-code" tooltip="{i18n>showJsonTooltip}" press=".onShowJson"/>
+			<Button id="deleteStructureButton" icon="sap-icon://delete" type="Reject" tooltip="{i18n>deleteStructureTooltip}"
+				press=".onDeleteStructure"/>
+			<Button id="closeButton" icon="sap-icon://decline" type="Transparent" tooltip="{i18n>close}"
+				visible="{= !${device>/system/phone} }" press=".onClose"/>
+		</headerContent>
+		<content>
+			<ObjectHeader
+				id="header"
+				title="{name}"
+				icon="sap-icon://tree"
+				backgroundDesign="Transparent"
+				responsive="true">
+				<attributes>
+					<ObjectAttribute title="{i18n>description}" text="{= ${description} || '-' }"/>
+					<ObjectAttribute title="{i18n>usedBy}" text="{view>/usedByText}"/>
+				</attributes>
+			</ObjectHeader>
+
+			<Table
+				id="fieldsTable"
+				class="sapUiResponsiveContentPadding"
+				mode="MultiSelect"
+				noDataText="{i18n>fieldsNoData}"
+				selectionChange=".onTableSelectionChange"
+				updateFinished=".onTableUpdateFinished"
+				items="{path: 'fields', templateShareable: false}">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title id="fieldsTitle" text="{i18n>keys}" level="H2"/>
+						<ToolbarSpacer/>
+						<Button id="addRowButton" icon="sap-icon://add" text="{i18n>addRow}" press=".onAddRow"/>
+						<Button id="deleteRowsButton" icon="sap-icon://less" text="{i18n>deleteRows}"
+							enabled="{view>/hasSelection}" press=".onDeleteSelectedRows"/>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="22%">
+						<Text text="{i18n>colKey}"/>
+					</Column>
+					<Column width="28%">
+						<Text text="{i18n>colType}"/>
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<Text text="{i18n>colDefault}"/>
+					</Column>
+					<Column width="5rem" hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+						<Text text="{i18n>colArray}" tooltip="{i18n>colArrayTooltip}"/>
+					</Column>
+					<Column width="3rem" hAlign="End"/>
+				</columns>
+				<ColumnListItem vAlign="Middle">
+					<Input value="{key}" placeholder="{i18n>keyPlaceholder}" required="true" change=".onKeyChange"/>
+					<HBox alignItems="Center" renderType="Bare">
+						<Select
+							selectedKey="{type}"
+							forceSelection="false"
+							showSecondaryValues="true"
+							width="100%"
+							change=".onTypeChange"
+							items="{path: 'view>/typeOptions', templateShareable: true}">
+							<layoutData>
+								<FlexItemData growFactor="1" minWidth="0"/>
+							</layoutData>
+							<core:ListItem key="{view>key}" text="{view>key}" additionalText="{view>group}" icon="{view>icon}"/>
+						</Select>
+						<Button
+							icon="sap-icon://tree"
+							type="Transparent"
+							class="mdTypeStructureButton"
+							tooltip="{i18n>showStructureTooltip}"
+							visible="{path: 'type', formatter: '.formatter.isStructureType'}"
+							press=".onShowTypeStructure"/>
+					</HBox>
+					<VBox renderType="Bare">
+						<!-- Single value -->
+						<Input
+							value="{defaultValue}"
+							visible="{= !${isArray} }"
+							enabled="{path: 'type', formatter: '.formatter.canHaveDefault'}"
+							placeholder="{path: 'type', formatter: '.formatter.defaultPlaceholder'}"
+							valueState="{parts: ['type', 'defaultValue'], formatter: '.formatter.defaultValueState'}"
+							valueStateText="{parts: ['type', 'defaultValue'], formatter: '.formatter.defaultValueStateText'}"/>
+						<!-- Array: one token per default value; type a value and press Enter to add it -->
+						<MultiInput
+							visible="{isArray}"
+							enabled="{path: 'type', formatter: '.formatter.canHaveDefault'}"
+							placeholder="{parts: ['type', 'isArray'], formatter: '.formatter.defaultPlaceholder'}"
+							showValueHelp="false"
+							valueState="{parts: ['type', 'defaultValues'], formatter: '.formatter.defaultValueState'}"
+							valueStateText="{parts: ['type', 'defaultValues'], formatter: '.formatter.defaultValueStateText'}"
+							change=".onDefaultTokenAdd"
+							liveChange=".onDefaultTokenLiveChange"
+							tokenUpdate=".onDefaultTokenUpdate"
+							tokens="{path: 'defaultValues', templateShareable: true}">
+							<tokens>
+								<Token key="{path: ''}" text="{path: ''}"/>
+							</tokens>
+						</MultiInput>
+					</VBox>
+					<CheckBox selected="{isArray}" tooltip="{i18n>colArrayTooltip}" select=".onArrayToggle"/>
+					<Button icon="sap-icon://decline" type="Transparent" tooltip="{i18n>deleteRowTooltip}" press=".onDeleteRow"/>
+				</ColumnListItem>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

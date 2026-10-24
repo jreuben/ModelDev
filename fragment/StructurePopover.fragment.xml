@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<!-- Shows the (nested) layout of a JSON structure used as a key type -->
+	<ResponsivePopover
+		title="{popover>/title}"
+		placement="Auto"
+		contentWidth="22rem"
+		contentHeight="18rem"
+		class="sapUiContentPadding">
+		<Tree
+			id="structureTree"
+			noDataText="{i18n>structureEmpty}"
+			items="{path: 'popover>/nodes', parameters: {arrayNames: ['nodes']}}">
+			<StandardTreeItem title="{popover>text}" icon="{popover>icon}"/>
+		</Tree>
+		<endButton>
+			<Button text="{i18n>openStructure}" icon="sap-icon://action" press=".onOpenPopoverStructure"/>
+		</endButton>
+	</ResponsivePopover>
+</core:FragmentDefinition>

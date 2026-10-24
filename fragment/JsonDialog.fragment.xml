@@ -1,0 +1,32 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog
+		title="{json>/title}"
+		contentWidth="40rem"
+		resizable="true"
+		draggable="true">
+		<subHeader>
+			<Toolbar>
+				<SegmentedButton selectedKey="{json>/mode}">
+					<items>
+						<SegmentedButtonItem key="definition" text="{i18n>jsonDefinition}"/>
+						<SegmentedButtonItem key="sample" text="{i18n>jsonSample}"/>
+					</items>
+				</SegmentedButton>
+			</Toolbar>
+		</subHeader>
+		<TextArea
+			class="mdJsonText"
+			editable="false"
+			width="100%"
+			growing="true"
+			value="{= ${json>/mode} === 'sample' ? ${json>/sample} : ${json>/definition} }"/>
+		<beginButton>
+			<Button text="{i18n>copy}" icon="sap-icon://copy" press=".onCopyJson"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>close}" press=".onCloseJson"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

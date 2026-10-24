@@ -1,0 +1,48 @@
+<mvc:View
+	controllerName="modeldev.controller.Master"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	height="100%">
+	<Page id="masterPage" title="{i18n>masterTitle}">
+		<headerContent>
+			<Button id="createButton" icon="sap-icon://add" text="{i18n>create}" type="Emphasized"
+				tooltip="{i18n>createTooltip}" press=".onCreate"/>
+		</headerContent>
+		<subHeader>
+			<Toolbar>
+				<SearchField id="searchField" liveChange=".onSearch" width="100%" placeholder="{i18n>searchPlaceholder}"/>
+			</Toolbar>
+		</subHeader>
+		<content>
+			<List
+				id="structureList"
+				mode="SingleSelectMaster"
+				noDataText="{i18n>masterNoData}"
+				selectionChange=".onSelectionChange"
+				updateFinished=".onListUpdateFinished"
+				items="{
+					path: '/structures',
+					sorter: { path: 'name' }
+				}">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="listTitle" text="{i18n>structures}" level="H2"/>
+					</Toolbar>
+				</headerToolbar>
+				<StandardListItem
+					title="{name}"
+					description="{description}"
+					icon="sap-icon://tree"
+					counter="{path: 'fields', formatter: '.formatter.fieldCount'}"
+					type="Navigation"/>
+			</List>
+		</content>
+		<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button id="importButton" icon="sap-icon://upload" text="{i18n>import}" tooltip="{i18n>importTooltip}" press=".onImport"/>
+				<Button id="exportButton" icon="sap-icon://download" text="{i18n>export}" tooltip="{i18n>exportTooltip}" press=".onExport"/>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

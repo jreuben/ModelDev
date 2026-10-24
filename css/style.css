@@ -1,0 +1,10 @@
+/* Keep the structure icon close to its type select */
+.mdTypeStructureButton {
+	margin-left: 0.25rem;
+}
+
+/* JSON preview */
+.mdJsonText textarea {
+	font-family: "72Mono", Consolas, "Courier New", monospace;
+	font-size: 0.875rem;
+}
